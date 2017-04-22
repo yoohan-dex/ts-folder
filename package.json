@@ -8,7 +8,7 @@
   "scripts": {
     "lint": "grunt tslint",
     "watch": "tsc -w",
-    "test": "jest"
+    "test:watch": "jest --watch #runs jest -o by default"
   },
   "jest": {
     "transform": {
@@ -22,7 +22,6 @@
     ]
   },
   "dependencies": {
-    "@types/immutable": "^3.8.7",
     "@types/jest": "^19.2.2",
     "@types/node": "^7.0.12",
     "grunt": "^1.0.1",
