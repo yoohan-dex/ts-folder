@@ -1,5 +1,9 @@
 import { Nodes } from './typings';
 
+export type Styles = {
+  [prop: string]: any,
+};
+
 export interface Attr {
   condition?: string;
   loop?: string;
@@ -7,24 +11,23 @@ export interface Attr {
   dataset?: {
     [ prop: string ]: string | number;
   };
-  styles?: {
-    [ prop: string ]: any;
-  };
+  styles?: Styles;
+  [prop: string]: any;
 }
 
 export interface Tree {
   type: string;
   tagName: string;
   attributes: Attr;
-  children: Tree[];
+  children: Tree[]|any[];
 }
 
-export default function format(nodes: Nodes): Tree[] {
+export default function format(nodes: Nodes): Tree[]|any[] {
   return nodes.map(node => {
     if (node.type === 'element' || node.type === 'component') {
       const type = capitialize(node.type);
       const tagName = node.tagName;
-      const attributes = formatAttributes(node.attributes);
+      const attributes = formatAttributes(node.attributes as string[]);
       const children = format(node.children);
       return {
         type,
@@ -32,6 +35,8 @@ export default function format(nodes: Nodes): Tree[] {
         attributes,
         children,
       };
+    } else {
+      return undefined;
     }
   });
 }
@@ -58,7 +63,8 @@ export function unquote(str: string): string {
   return str;
 }
 
-export function formatStatyles(str: string): Object {
+export function formatStatyles(str: string): Styles {
+  const initalStyle: Styles = {};
   return str.trim().split(';')
     .map(rule => rule.trim().split(':'))
     .reduce((styles, keyAndValue) => {
@@ -73,7 +79,7 @@ export function formatStatyles(str: string): Object {
         styles[ key ] = value;
       }
       return styles;
-    }, {});
+    }, initalStyle);
 }
 
 export function camelCase(str: string): string {
@@ -103,7 +109,7 @@ export function unCurly(str: string): string {
   return str;
 }
 
-export function formatAttributes(attributes: string[]) {
+export function formatAttributes(attributes: string[]): Attr {
   const initialAttrs: Attr = {};
   return attributes.reduce((attrs, pair) => {
     let [ key, value ] = splitHead(pair.trim(), '=');
@@ -120,6 +126,8 @@ export function formatAttributes(attributes: string[]) {
       attrs.condition = unCurly(value);
     } else if (key.startsWith('re:for')) {
       attrs.loop = unCurly(value);
+    } else if (key === 'id') {
+      return attrs;
     } else {
       attrs[ camelCase(key) ] = castValue(value);
     }

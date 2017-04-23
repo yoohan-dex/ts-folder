@@ -48,10 +48,10 @@ export type ArrowToken = TagS|TagE;
 export type Tokens = (Token|ArrowToken)[];
 
 export interface Node {
-  type: 'element'|'component'|'text'|'comment';
+  type?: 'element'|'component'|'text'|'comment'|'root';
   tagName: string;
   content?: string;
-  children?: Nodes;
+  children: Nodes|any[];
   attributes?: string[];
 }
 export type Nodes = Node[];

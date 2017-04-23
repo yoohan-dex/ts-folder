@@ -15,9 +15,6 @@ const options = {
   childlessTags: [ 'childless' ],
   closingTags: [],
   voidTags: [],
-  loopTag: 'string',
-  componentTags: [],
-  format: () => 'ss',
 };
 
 describe('lexEpresssion', () => {

@@ -8,18 +8,18 @@ export interface State {
   stack: Stack[];
 }
 
-interface Root {
-  tagName: null;
+export interface Root {
+  tagName: 'root';
   children: Node[];
 }
 
-interface Stack {
+export interface Stack {
   tagName: string;
   children: Node[];
 }
 
-export default function parser(tokens, options) {
-  const root: Root = { tagName: null, children: [] };
+export default function parser(tokens: Tokens, options: Options) {
+  const root: Root = { tagName: 'root', children: [] };
   const state: State = { tokens, options, cursor: 0, stack: [ root ] };
   parse(state);
   return root.children;
@@ -46,7 +46,7 @@ export function parse(state: State) {
     if (token.close) {
       let item: Stack;
       while (stack.length > 1) {
-        item = stack.pop();
+        item = stack.pop() as Stack;
         if (tagName === item.tagName) {
           break;
         }
@@ -74,7 +74,7 @@ export function parse(state: State) {
     }
 
     let attributes: string[] = [];
-    let attrToken: {[prop: string]: any};
+    let attrToken: {[prop: string]: any} = {};
     while (cursor < len) {
       attrToken = tokens[cursor];
       if (attrToken.type === 'tag-end') {
@@ -86,7 +86,7 @@ export function parse(state: State) {
     cursor++;
     const children: Node[] = [];
     const tagStr = tagToken.payload;
-    let type;
+    let type: 'component'|'element';
     if (tagStr.charCodeAt(0) >= 65 && tagStr.charCodeAt(0) <= 90) {
       type = 'component';
     } else {

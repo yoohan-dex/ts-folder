@@ -118,7 +118,7 @@ describe('format', () => {
       {
         tagName: 'closing',
         type: 'Element',
-        attributes: {id: 'abc'},
+        attributes: {},
         children: [ {
           tagName: 'Hello',
           type: 'Component',

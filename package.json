@@ -2,7 +2,7 @@
   "name": "gino",
   "version": "0.9.9",
   "description": "a single store",
-  "main": "index.js",
+  "main": "lib/src/index.js",
   "author": "dexter",
   "license": "MIT",
   "scripts": {
@@ -14,7 +14,7 @@
     "transform": {
       ".(ts|tsx)": "<rootDir>/node_modules/ts-jest/preprocessor.js"
     },
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
     "moduleFileExtensions": [
       "ts",
       "tsx",

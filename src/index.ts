@@ -1,2 +1,1 @@
-
-import './lib/lexer';
+export * from './lib';
