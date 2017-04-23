@@ -29,8 +29,8 @@ describe('piece function', () => {
   it('should take away the couple of curly bracket', () => {
     const str = '{{haha}}';
     expect(unCurly(str)).toBe('haha');
-  })
-})
+  });
+});
 describe('format', () => {
   it('should can format the string perfectly', () => {
 
