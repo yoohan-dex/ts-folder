@@ -1,8 +1,5 @@
 import {
-  startWith,
-  endWith,
   arrayIncludes,
-  stringIncludes,
 } from './utils';
 import { Options, Tokens } from './typings';
 
@@ -31,7 +28,7 @@ export function lex(state: State): void {
       continue;
     }
 
-    const isComment = startWith(str, '!--', state.cursor + 1);
+    const isComment = str.startsWith('!--', state.cursor + 1);
     if (isComment) {
       lexComment(state);
       continue;
@@ -207,7 +204,7 @@ export function lexTagAttributes(state: State) {
     const isNotPair = word.indexOf('=') === -1;
     if (isNotPair) {
       const secondWord = words[ i + 1 ];
-      if (secondWord && startWith(secondWord, '=')) {
+      if (secondWord && secondWord.startsWith('=')) {
         if (secondWord.length > 1) {
           const newWord = word + secondWord;
           tokens.push({ type, payload: newWord });
@@ -225,9 +222,9 @@ export function lexTagAttributes(state: State) {
         }
       }
     }
-    if (endWith(word, '=')) {
+    if (word.endsWith('=')) {
       const secondWord = words[ i + 1 ];
-      if (secondWord && !stringIncludes(secondWord, '=')) {
+      if (secondWord && !secondWord.includes('=')) {
         const newWord = word + secondWord;
         tokens.push({ type, payload: newWord });
         i += 1;

@@ -1,4 +1,3 @@
-import { startWith, endWith } from './utils';
 import { Nodes } from './typings';
 
 export interface Attr {
@@ -94,7 +93,7 @@ export function castValue(str: any): string | number {
 }
 
 export function isExpression(str: string): boolean {
-  return (startWith(str, '{{')) && (endWith(str, '}}'));
+  return (str.startsWith('{{')) && (str.endsWith('}}'));
 }
 
 export function unCurly(str: string): string {
@@ -113,13 +112,13 @@ export function formatAttributes(attributes: string[]) {
       attrs.className = value.split(' ');
     } else if (key === 'style') {
       attrs.styles = formatStatyles(value);
-    } else if (startWith(key, 'data-')) {
+    } else if (key.startsWith('data-')) {
       attrs.dataset = attrs.dataset || {};
       const prop = camelCase(key.slice(5));
       attrs.dataset[ prop ] = castValue(value);
-    } else if (startWith(key, 're:if')) {
+    } else if (key.startsWith('re:if')) {
       attrs.condition = unCurly(value);
-    } else if (startWith(key, 're:for')) {
+    } else if (key.startsWith('re:for')) {
       attrs.loop = unCurly(value);
     } else {
       attrs[ camelCase(key) ] = castValue(value);

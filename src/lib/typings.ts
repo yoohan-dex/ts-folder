@@ -2,7 +2,6 @@ export interface Options {
   childlessTags: string[];
   closingTags: string[];
   voidTags: string[];
-  componentTags: string[];
 }
 
 export interface Lexicon {

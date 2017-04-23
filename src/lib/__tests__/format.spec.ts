@@ -101,4 +101,34 @@ describe('format', () => {
     ]);
   });
 
+  it('should take id away', () => {
+
+    const str =
+    '<closing id="abc"><Hello re:for="{{loop}}">hello</Hello></closing>';
+    const state = {
+      str,
+      options,
+      cursor: 0,
+      tokens: [],
+    };
+    let tokens = lexer(str, options);
+    const nodes = parser(tokens, options);
+    const result = format(nodes);
+    expect(result).toEqual([
+      {
+        tagName: 'closing',
+        type: 'Element',
+        attributes: {id: 'abc'},
+        children: [ {
+          tagName: 'Hello',
+          type: 'Component',
+          attributes: {
+            loop: 'loop',
+          },
+          children: [undefined],
+        }],
+      },
+    ]);
+  });
+
 });

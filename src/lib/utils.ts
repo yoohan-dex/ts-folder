@@ -1,41 +1,3 @@
-
-
-/**
- * Check a string if including another string from scratch
- *
- * @param str the target string as haystack
- * @param searchStr the string searching as a needle
- * @param position the start seaching postion in the target string
- *
- */
-function startWith(str: string, searchStr: string, position?: number): boolean {
-  return str.substr(position || 0, searchStr.length) === searchStr;
-}
-
-/**
- * Check a string if including another string from end
- *
- * @param str the target string as haystack
- * @param searchStr  the string searching as a needle
- * @param position the start seaching postion in the target string
- */
-function endWith(str: string, searchStr: string, position?: number): boolean {
-  const index = (position || str.length) - searchStr.length;
-  const lastIndex = str.lastIndexOf(searchStr, index);
-  return lastIndex !== -1 && lastIndex === index;
-}
-
-/**
- * Check a string if including another string
- *
- * @param str the target string as haystack
- * @param searchStr the string searching as a needle
- * @param position the start seaching postion in the target string
- */
-function stringIncludes(str: string, searchStr: string, position?: number): boolean {
-  return str.indexOf(searchStr, position || 0) !== -1;
-}
-
 /**
  * Check x if really is not NaN
  *
@@ -74,9 +36,6 @@ function arrayIncludes(array: any[], searchEle: number | string, position?: numb
 }
 
 export {
-  startWith,
-  endWith,
-  stringIncludes,
   isRealNaN,
   arrayIncludes,
 };
