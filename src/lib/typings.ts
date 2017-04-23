@@ -2,9 +2,7 @@ export interface Options {
   childlessTags: string[];
   closingTags: string[];
   voidTags: string[];
-  loopTag: string;
   componentTags: string[];
-  format: Function;
 }
 
 export interface Lexicon {
@@ -51,11 +49,13 @@ export type ArrowToken = TagS|TagE;
 export type Tokens = (Token|ArrowToken)[];
 
 export interface Node {
-  type: 'element'|'container'|'component'|'text'|'comment';
+  type: 'element'|'component'|'text'|'comment';
   tagName: string;
   content?: string;
-  children?: Node[];
-  attributes?: [string, string][];
+  children?: Nodes;
+  attributes?: string[];
 }
+export type Nodes = Node[];
+
 
 

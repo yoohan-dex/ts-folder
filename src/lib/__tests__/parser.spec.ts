@@ -97,15 +97,44 @@ describe('parser', () => {
       type: 'element',
       tagName: 'closing',
       attributes: [
-        [ 'r:if', '{{val}}' ],
-        [ 'r:for', '{{array}}' ],
+        'r:if="{{val}}"',
+        'r:for="{{array}}"',
       ],
       children: [ {
         type: 'element',
         tagName: 'hello',
-        attributes: [
-          [ 'src', 'https://www.baidu.com' ],
-        ],
+        attributes: ['src="https://www.baidu.com"'],
+        children: [ {
+          type: 'text',
+          content: 'hello',
+        }],
+      }],
+    }]);
+
+  });
+
+  it('should can handle component', () => {
+
+    const str = '<closing r:if="{{val}}" r:for="{{array}}"><Hello src="https://www.baidu.com">hello</Hello></closing>';
+    const state = {
+      str,
+      options,
+      cursor: 0,
+      tokens: [],
+    };
+    let tokens = lexer(str, options);
+    const nodes = parser(tokens, options);
+    expect(nodes).toEqual([ {
+      type: 'element',
+      tagName: 'closing',
+      attributes: [
+        'r:if="{{val}}"',
+        'r:for="{{array}}"',
+      ],
+      children: [ {
+        type: 'component',
+        tagName: 'Hello',
+        attributes: ['src="https://www.baidu.com"'],
         children: [ {
           type: 'text',
           content: 'hello',

@@ -1,4 +1,4 @@
-import { arrayIncludes, stringIncludes } from './utils';
+import { arrayIncludes } from './utils';
 import { Node, Tokens, Options, Token, ArrowToken } from './typings';
 
 export interface State {
@@ -73,39 +73,31 @@ export function parse(state: State) {
       }
     }
 
-    let attributes: [string, string][] = [];
+    let attributes: string[] = [];
     let attrToken: {[prop: string]: any};
     while (cursor < len) {
       attrToken = tokens[cursor];
       if (attrToken.type === 'tag-end') {
         break;
       }
-      const attrStr: string = attrToken.payload;
-      let key: string;
-      let value: string;
-      if (stringIncludes(attrToken.payload, '=')) {
-        const keyIndex = attrStr.indexOf('=');
-        key = attrStr.slice(0, keyIndex);
-        const tails = attrStr.slice(keyIndex + 1);
-        if (tails.charAt(0) === '"' || tails.charAt(0) === '\'') {
-          value = tails.slice(1, tails.length - 1);
-        }
-      } else {
-        key = attrStr;
-        value = 'true';
-      }
-      attributes.push([key, value]);
+      attributes.push(attrToken.payload);
       cursor++;
     }
     cursor++;
     const children: Node[] = [];
+    const tagStr = tagToken.payload;
+    let type;
+    if (tagStr.charCodeAt(0) >= 65 && tagStr.charCodeAt(0) <= 90) {
+      type = 'component';
+    } else {
+      type = 'element';
+    }
     nodes.push({
-      type: 'element',
+      type,
       tagName: tagToken.payload,
       attributes,
       children,
     });
-
     const hasChildren = !(attrToken.close || arrayIncludes(options.voidTags, tagName));
     if (hasChildren) {
       stack.push({ tagName, children });
