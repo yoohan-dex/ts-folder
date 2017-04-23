@@ -8,6 +8,8 @@
   "scripts": {
     "lint": "grunt tslint",
     "watch": "tsc -w",
+    "compile": "tsc",
+    "tslint": "tslint -p tsconfig.json -c tslint.json --type-check",
     "test:watch": "jest --watch #runs jest -o by default"
   },
   "jest": {
